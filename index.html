@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@next/dist/vuetify.min.css" rel="stylesheet" />
+  <title>Webtopia</title>
+</head>
+
+<body>
+  <div id="app">
+    <v-app>
+      <v-main>
+        <div>
+          <v-container>
+            <div class="mt-10">
+              <v-text-field color="success" loading v-model="itemName" label="Item Name"></v-text-field>
+              <v-text-field color="error" loading v-model="price" label="Price"></v-text-field>
+            </div>
+
+          </v-container>
+          <div class=" d-flex align-center flex-column">
+
+            <v-btn class="flex align-center" @click="addStock">ADDSTOCK</v-btn>
+
+            <li v-for="(data, index) in items" class="mt-10">
+              {{ data.name }} | Price {{data.price}} Bath
+              <div class="d-flex flex-row">
+                <v-btn class="mr-3" color="error" @click="deleteStock(index)">DELETE</v-btn>
+                <v-btn color="warning" @click="updateStock(index, data)">EDIT</v-btn>
+              </div>
+          </div>
+          </li>
+        </div>
+        <table>
+          <tr>
+            <td v-for="(datas, i) in items" :key="i">{{datas.name}} {{datas.price}}</td>
+          </tr>
+        </table>
+      </v-main>
+    </v-app>
+  </div>
+  <script src="https://unpkg.com/vue@3"></script>
+  <script src="https://unpkg.com/vuetify@next"></script>
+  <script>
+    const vuetify = Vuetify.createVuetify()
+    const app = Vue.createApp({
+      data() {
+        return {
+          itemName: '',
+          price: 0,
+          items: [{
+            id: 1,
+            name: "Potato",
+            price: 10
+          },
+          {
+            id: 2,
+            name: "Potato",
+            price: 20
+          },
+          {
+            id: 3,
+            name: "Potato",
+            price: 30
+          }
+          ]
+        }
+      },
+      methods: {
+        addStock() {
+          const payload = {
+            id: this.items.length + 1,
+            name: this.itemName,
+            price: this.price
+          }
+          const x = this.items.push(payload)
+        },
+        deleteStock(index) {
+          this.items.splice(index, 1)
+        },
+        updateStock(index, data) {
+          const payload = {
+            id: index,
+            name: this.itemName,
+            price: this.price
+          }
+          this.items.splice(index, 1, payload)
+        }
+      },
+    });
+
+    app.use(vuetify).mount('#app');
+  </script>
+</body>
+
+</html>
